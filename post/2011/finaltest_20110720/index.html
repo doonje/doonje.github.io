@@ -1,0 +1,797 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>opencv for android</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.16" />
+        
+
+
+        
+            <meta name="author" content="Doonje">
+        
+        
+            
+                <meta name="description" content="Android Developer from South Korea">
+            
+        
+
+        
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="opencv for android"/>
+<meta name="twitter:description" content="Using OpenCV in Android. This tutorial is tested under Ubuntu 10.04 &#43; Android SDKr07 &#43; Android NDKr4b. Preparing the development environment 개발하기전 SDK, ADT plugin, android NDK 설치한다. Download and install Android SDK. Details can be found here Download eclipse and install the ADT plugin. Details can be found here Download Androdi NDK. This tool is used to cross compile OpenCV source code to Android. Currently (NDK r4) only C is fully supported, so I can only use OpenCV 1.1 under Android."/>
+
+
+
+        <meta property="og:title" content="opencv for android" />
+<meta property="og:description" content="Using OpenCV in Android. This tutorial is tested under Ubuntu 10.04 &#43; Android SDKr07 &#43; Android NDKr4b. Preparing the development environment 개발하기전 SDK, ADT plugin, android NDK 설치한다. Download and install Android SDK. Details can be found here Download eclipse and install the ADT plugin. Details can be found here Download Androdi NDK. This tool is used to cross compile OpenCV source code to Android. Currently (NDK r4) only C is fully supported, so I can only use OpenCV 1.1 under Android." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://starrysky.co.kr/post/2011/finaltest_20110720/" />
+
+
+<meta property="og:updated_time" content="2011-07-20T19:19:41&#43;09:00"/>
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="opencv for android">
+<meta itemprop="description" content="Using OpenCV in Android. This tutorial is tested under Ubuntu 10.04 &#43; Android SDKr07 &#43; Android NDKr4b. Preparing the development environment 개발하기전 SDK, ADT plugin, android NDK 설치한다. Download and install Android SDK. Details can be found here Download eclipse and install the ADT plugin. Details can be found here Download Androdi NDK. This tool is used to cross compile OpenCV source code to Android. Currently (NDK r4) only C is fully supported, so I can only use OpenCV 1.1 under Android.">
+
+
+<meta itemprop="dateModified" content="2011-07-20T19:19:41&#43;09:00" />
+<meta itemprop="wordCount" content="590">
+
+
+
+<meta itemprop="keywords" content="Android,App,Book,Life,Snap,Think,Travel," />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+
+        
+            
+                
+                    <link rel="stylesheet" href="/css/main.min.css" />
+                
+            
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-44198092-2', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+    </head>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">StarrySky</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/post">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:http://starrysky.co.kr/">
+                </form>
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:http://starrysky.co.kr/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/post">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2016/2016_travel_osaka/"><p>[2016.10.12-16] KOBE-OSAKA-KYOTO</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2016/2016_travel_%20Taiwan/"><p>[2016.01.24-27] Taiwan</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2015/apps-alading-usedbook-search/"><p>알라딘 중고도서 검색기</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2013/Efficient-rounded%20corner-imageview/"><p>Efficient rounded corner imageview</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2013/firstStartFlatColorPalette/"><p>Flat한 디자인을 위한 첫걸음.</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110720%2f&text=opencv%20for%20android&via=" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110720%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110720%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110720%2f&title=opencv%20for%20android" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110720%2f&title=opencv%20for%20android" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110720%2f&title=opencv%20for%20android" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Doonje&body=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110720%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="http://starrysky.co.kr/post/2011/finaltest_20110720/">opencv for android</a></h1>
+            
+        
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2011-07-20'>
+            July 20, 2011</time>
+        <span class="author">Doonje</span>
+        
+            <p>3 minute read</p>
+        
+        
+    </div>
+</header>
+
+
+    
+    
+    
+
+    <div id="content">
+        
+
+<p>Using OpenCV in Android. This tutorial is tested under Ubuntu 10.04 + Android SDKr07 + Android NDKr4b.
+Preparing the development environment
+개발하기전 SDK, ADT plugin, android NDK 설치한다.
+Download and install Android SDK. Details can be found here
+Download eclipse and install the ADT plugin. Details can be found here
+Download Androdi NDK. This tool is used to cross compile OpenCV source code to Android. Currently (NDK r4) only C is fully supported, so I can only use OpenCV 1.1 under Android. The laterst version of OpenCV uses lots of STL functions. :(
+Create the test project ( 테스트 프로젝트 만들기)
+Create a new Android project in eclipse. For example, called testOpenCV. Name the package name as: edu.stanford.android.
+이클립스에서 새로운 안드로이드 프로젝트를 만든다. 이름은 testOpenCV로 하고 package 이름은 edu.stanford.android 로 정한다.
+In the root directory of the project, create a new folder called jni and extract all files in android_opencv.tar.gz to this folder.
+프로젝트의 루트 디렉토리에서 jni라는 새로운 폴더를 만들고 android_opencv.tar.gz 에 있는 모든 파일을 추출해서 이 폴더에 넣는다.
+Run “$NDK/ndk-build” from your project directory. It will generate libopencv.so in the libs/armeabi folder.
+이 단계를 하기 전에 프로젝트를 cygwin 아래에 있는 ndk 폴더 아래에다가 저장을 한다.
+cygwin에서 이 프로젝트 폴더로 가서 ndk-build를 하면 libitestopencv.so 파일이 lib/armeabi 폴더에 있을것이다.
+Write Java code to use OpenCV functions. I have three java files which can be downloaded here. The general idea is that I use the intent to start the camera or gallery activities to get the image and send this image to OpenCV. After OpenCV finishes extracting SURF features, it send the processed image back to JVM. The interface between JVM and OpenCV is pretty simple: setSourceImage and getSourceImage.
+opencv 함수를 이용하여 자바 코드를 작성한다. 세 자바 코드 파일을 다운로드한다. 전반적인 아이디어는 이미지를 받고 opencv로 보내려고 카메라나 갤러리를 구동하기 위해서 인텐트를 이용한다. opencv가 SURF 정보를 추출한 후엔 processed image를 JVM으로 보낸다. JVM 과 opencv간의 인터페이스를 꽤 간단하다. (setSourceImage&amp;getSourceImage)</p>
+
+<p><br><br><br><br></p>
+
+<h1 id="opencv-java">OpenCV.java</h1>
+
+<pre><code>package edu.stanford.zixuanpc;
+public class OpenCV {
+static{
+    System.loadLibrary(&quot;opencv&quot;);
+}
+public native boolean setSourceImage(int[] pixels, int width, int height);
+public native byte[] getSourceImage();
+public native void extractSURFFeature();
+}
+</code></pre>
+
+<p><br>
+And here is the code how we use these two functions:
+여기에 두 함수를 어떻게 사용하는지 나와있다.</p>
+
+<h1 id="code-snippet-in-testopencvactivity-java">Code snippet in testOpenCVActivity.java</h1>
+
+<pre><code>Bitmap bitmap = BitmapFactory.decodeFile(mCurrentImagePath);
+int width = bitmap.getWidth();
+int height = bitmap.getHeight();
+int[] pixels = new int[width * height];
+bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+opencv.setSourceImage(pixels, width, height);
+opencv.extractSURFFeature();
+byte[] imageData = opencv.getSourceImage();
+bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+mImageView.setImageBitmap(bitmap);
+</code></pre>
+
+<p><br></p>
+
+<h1 id="run-the-program">Run the program</h1>
+
+<p>Press the menu button to select your camera to capture an image. The down-sampled image is saved in your gallery. Press the menu button again to select it from your gallery and features are automatically extracted.<br>
+이미지를 찍기 위하여 카메라 메뉴 버튼을 눌러라. 다운로드한 샘플 사진이 갤러리에 저장되어 있다. 갤러리에서 사진을 선택하기위해서 메뉴 버튼을 눌러라. 그리고 정보는 자동적으로 추출된다.<br>
+Notice: if you select a large image in the gallery, the program may crash due to limited memory.<br>
+주의 : 만약 갤러리에서 큰 이미지를 선택하였다면 한정된 메모리때문에 프로그램이 충돌이 일어날 수 있다.
+On my DROID phone, it usually takes 4 seconds to extract features from one image.<br></p>
+
+<p><br></p>
+
+<h1 id="my-test-state-2011-07-20">My Test State ( 2011. 07. 20 )</h1>
+
+<p>테스트 환경( iMAC + Android 2.2 + NDKr4b )
+- 기존 sdk, ndk, adt 설치되어 있었으며, ndk-build의 경우 문제없이 한번에 통과 됨.
+실행단계
+1. 어플 실행
+2. 첫 화면은 검정.
+3. 메뉴&gt;카메라&gt;사진촬영
+4. 메뉴&gt;갤러리&gt;사진 선택
+5. opencv 이미지 처리
+6. 처리 결과 view</p>
+
+<p><img src="/img/2011/20110720_1.jpg" alt="" /><br>
+<img src="/img/2011/20110720_2.jpg" alt="" /><br>
+<img src="/img/2011/20110720_3.jpg" alt="" /><br></p>
+
+<p>사진 크기에 따른 처리결과
+정상작동
+시간초과 결과 노출x
+어플 오류
+800 x 480
+640 x 480
+1600 x 960
+1280 x 960
+2560 x 1920</p>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Category
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesandroid'>Android</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="http://starrysky.co.kr/post/2011/alyac_gift/"
+                class="button big previous">알약 2.0 베타 테스트 후 받은 기념품</a></li>
+    
+
+    
+        <li><a href="http://starrysky.co.kr/post/2011/finaltest_20110722/"
+                class="button big next">MAC에서 Android 어플 개발시 EVOCAM의 web Server 기능은 사용 불가능.</a></li>
+    
+</ul>
+
+
+
+
+
+    
+        <article class="post">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'starry-sky';
+    var disqus_identifier = 'http:\/\/starrysky.co.kr\/post\/2011\/finaltest_20110720\/';
+    var disqus_title = 'opencv for android';
+    var disqus_url = 'http:\/\/starrysky.co.kr\/post\/2011\/finaltest_20110720\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </article>
+    
+
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Starrysky logo" /></a>
+                
+            
+            
+                <header>
+                    <h2>HELLO WORLD.</h2>
+                    <p>Android Developer from South Korea</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/doonje" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//plus.google.com/+%ec%a7%84%ed%99%8d%eb%b9%9b" target="_blank" title="Google+" class="fa fa-google-plus"></a></li>
+
+
+
+
+
+
+
+<li><a href="mailto:doonje@gmail.com" title="Email" class="fa fa-envelope"></a></li>
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2016/2016_travel_osaka/">[2016.10.12-16] KOBE-OSAKA-KYOTO</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2016-10-31'>
+                                    October 31, 2016</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2016/2016_travel_%20Taiwan/">[2016.01.24-27] Taiwan</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2016-01-24'>
+                                    January 24, 2016</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2015/apps-alading-usedbook-search/">알라딘 중고도서 검색기</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2015-11-10'>
+                                    November 10, 2015</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2013/Efficient-rounded%20corner-imageview/">Efficient rounded corner imageview</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2013-09-21'>
+                                    September 21, 2013</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2013/firstStartFlatColorPalette/">Flat한 디자인을 위한 첫걸음.</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2013-09-20'>
+                                    September 20, 2013</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /post/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/travel/">Travel</a>
+                                <span style="float:right;">14</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/life/">Life</a>
+                                <span style="float:right;">11</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/android/">Android</a>
+                                <span style="float:right;">8</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/snap/">Snap</a>
+                                <span style="float:right;">7</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/app/">App</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/book/">Book</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/think/">Think</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+            </ul>
+
+            <p class="copyright">&copy; StarrySky Blog. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+
+        
+            
+                
+                    <script src="/js/main.min.js"></script>
+                
+            
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

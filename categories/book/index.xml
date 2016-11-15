@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Book on StarrySky Blog</title>
+    <link>http://starrysky.co.kr/categories/book/</link>
+    <description>Recent content in Book on StarrySky Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-KR</language>
+    <lastBuildDate>Tue, 16 Mar 2010 03:04:20 +0900</lastBuildDate>
+    <atom:link href="http://starrysky.co.kr/categories/book/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>인생은.</title>
+      <link>http://starrysky.co.kr/post/2010/20100316_book/</link>
+      <pubDate>Tue, 16 Mar 2010 03:04:20 +0900</pubDate>
+      
+      <guid>http://starrysky.co.kr/post/2010/20100316_book/</guid>
+      <description>&lt;p&gt;The life of man is a winter&amp;rsquo;s day and a winter&amp;rsquo;s way.
+인생은 겨울 길을 가는 것과 같다.&lt;/p&gt;
+
+&lt;p&gt;에어기어 25권&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

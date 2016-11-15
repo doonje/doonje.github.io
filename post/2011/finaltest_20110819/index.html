@@ -1,0 +1,753 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>2011년 08월 19일</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.16" />
+        
+
+
+        
+            <meta name="author" content="Doonje">
+        
+        
+            
+                <meta name="description" content="Android Developer from South Korea">
+            
+        
+
+        
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="2011년 08월 19일"/>
+<meta name="twitter:description" content="Camera Preview 사용하여 화면 클릭 시, onShotScreen을 이용하여 화면을 Byte[]로 저장 후 Tesseract-Android-tools를 이용. 그리고 인식된 문자를 google-api-translate-java 로 번역. 추가. 가까운 글자의 경우 포커스 문제로 문자 인식 불가로. &lsquo;오토포커스&rsquo; 메뉴를 추가하여 포커스 설정. 해당 기능의 유지 및 제거 결정은 영상의 실시간 처리에 문제를 일으킬수 있으므로 유보. 앞으로 완료할 일. 쓰레드를 이용하여 클릭이 아닌 문자영역을 자동으로 찾아 라벨링까지. 추가로 ocr을 통한 문자에 인식 오류로 특문이 포함된 경우, 알파벳 이외의 문자는 제거 문자로 인식된 문자만 노출 및 번역이 진행되어야 함."/>
+
+
+
+        <meta property="og:title" content="2011년 08월 19일" />
+<meta property="og:description" content="Camera Preview 사용하여 화면 클릭 시, onShotScreen을 이용하여 화면을 Byte[]로 저장 후 Tesseract-Android-tools를 이용. 그리고 인식된 문자를 google-api-translate-java 로 번역. 추가. 가까운 글자의 경우 포커스 문제로 문자 인식 불가로. &lsquo;오토포커스&rsquo; 메뉴를 추가하여 포커스 설정. 해당 기능의 유지 및 제거 결정은 영상의 실시간 처리에 문제를 일으킬수 있으므로 유보. 앞으로 완료할 일. 쓰레드를 이용하여 클릭이 아닌 문자영역을 자동으로 찾아 라벨링까지. 추가로 ocr을 통한 문자에 인식 오류로 특문이 포함된 경우, 알파벳 이외의 문자는 제거 문자로 인식된 문자만 노출 및 번역이 진행되어야 함." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://starrysky.co.kr/post/2011/finaltest_20110819/" />
+
+
+<meta property="og:updated_time" content="2011-08-18T16:01:41&#43;09:00"/>
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="2011년 08월 19일">
+<meta itemprop="description" content="Camera Preview 사용하여 화면 클릭 시, onShotScreen을 이용하여 화면을 Byte[]로 저장 후 Tesseract-Android-tools를 이용. 그리고 인식된 문자를 google-api-translate-java 로 번역. 추가. 가까운 글자의 경우 포커스 문제로 문자 인식 불가로. &lsquo;오토포커스&rsquo; 메뉴를 추가하여 포커스 설정. 해당 기능의 유지 및 제거 결정은 영상의 실시간 처리에 문제를 일으킬수 있으므로 유보. 앞으로 완료할 일. 쓰레드를 이용하여 클릭이 아닌 문자영역을 자동으로 찾아 라벨링까지. 추가로 ocr을 통한 문자에 인식 오류로 특문이 포함된 경우, 알파벳 이외의 문자는 제거 문자로 인식된 문자만 노출 및 번역이 진행되어야 함.">
+
+
+<meta itemprop="dateModified" content="2011-08-18T16:01:41&#43;09:00" />
+<meta itemprop="wordCount" content="189">
+
+
+
+<meta itemprop="keywords" content="Android,App,Book,Life,Snap,Think,Travel," />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+
+        
+            
+                
+                    <link rel="stylesheet" href="/css/main.min.css" />
+                
+            
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-44198092-2', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+    </head>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">StarrySky</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/post">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:http://starrysky.co.kr/">
+                </form>
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:http://starrysky.co.kr/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/post">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2016/2016_travel_osaka/"><p>[2016.10.12-16] KOBE-OSAKA-KYOTO</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2016/2016_travel_%20Taiwan/"><p>[2016.01.24-27] Taiwan</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2015/apps-alading-usedbook-search/"><p>알라딘 중고도서 검색기</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2013/Efficient-rounded%20corner-imageview/"><p>Efficient rounded corner imageview</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2013/firstStartFlatColorPalette/"><p>Flat한 디자인을 위한 첫걸음.</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110819%2f&text=2011%eb%85%84%2008%ec%9b%94%2019%ec%9d%bc&via=" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110819%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110819%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110819%2f&title=2011%eb%85%84%2008%ec%9b%94%2019%ec%9d%bc" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110819%2f&title=2011%eb%85%84%2008%ec%9b%94%2019%ec%9d%bc" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110819%2f&title=2011%eb%85%84%2008%ec%9b%94%2019%ec%9d%bc" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Doonje&body=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2011%2ffinaltest_20110819%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="http://starrysky.co.kr/post/2011/finaltest_20110819/">2011년 08월 19일</a></h1>
+            
+        
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2011-08-18'>
+            August 18, 2011</time>
+        <span class="author">Doonje</span>
+        
+            <p>1 minute read</p>
+        
+        
+    </div>
+</header>
+
+
+    
+    
+    
+
+    <div id="content">
+        
+
+<p>Camera Preview 사용하여
+화면 클릭 시,
+onShotScreen을 이용하여 화면을 Byte[]로 저장 후
+Tesseract-Android-tools를 이용.
+그리고 인식된 문자를
+google-api-translate-java 로 번역.
+추가. 가까운 글자의 경우 포커스 문제로 문자 인식 불가로. &lsquo;오토포커스&rsquo; 메뉴를 추가하여 포커스 설정.
+해당 기능의 유지 및 제거 결정은 영상의 실시간 처리에 문제를 일으킬수 있으므로 유보.
+앞으로 완료할 일.
+쓰레드를 이용하여 클릭이 아닌 문자영역을 자동으로 찾아 라벨링까지.
+추가로 ocr을 통한 문자에 인식 오류로 특문이 포함된 경우, 알파벳 이외의 문자는 제거
+문자로 인식된 문자만 노출 및 번역이 진행되어야 함.</p>
+
+<p><br><br></p>
+
+<h1 id="필요-기술-및-제원">필요 기술 및 제원.</h1>
+
+<p>1-1 Camera Preview -&gt;OpenCV를 이용한 영상처리.<br>
+1-2 영상의 이진화, 라벨링.<br>
+2-1 라벨링영역 트래킹.<br>
+3-1 트래킹을 통한 좌표값을 이용. 인식된 문자와 번역된 문자를 openGL ES를 통해 출력draw.<br>
+4-1 문자를 이미지로 생성하여 생성된 이미지를 트래킹 좌표의 영상에 매핑.<br></p>
+
+<ol>
+<li><p>초기화면 : 풀스크린모드, 하단부 안내 메시지 노출.<br>
+<img src="/img/2011/20110918_1.jpg" alt="" /></p></li>
+
+<li><p>메뉴화면 : 포커스 설정을 위해 오토포커스 메뉴 추가. 세팅메뉴는 현재 미구현.<br>
+<img src="/img/2011/20110918_2.jpg" alt="" /></p></li>
+
+<li><p>[메뉴]-[Camera AutoFocus] 선택 시, 포커스 재설정.<br>
+<img src="/img/2011/20110918_3.jpg" alt="" /></p></li>
+
+<li><p>화면클릭 시, ocr분석 및 translate 작업. 후 상단과 중단에 인식된 문자와 번역된 문자 노출.
+화면 내 ocr은 한종류의 언어만 가능.(화면상 영어, 한글이 동시 존재하여도 설정한 언어만 인식.)
+인식이 잘못된 경우에도 translate작업은 진행 됨.<br>
+<img src="/img/2011/20110918_4.jpg" alt="" /></p></li>
+</ol>
+
+<p><br><br>
+졸작 완성도 : 20프로 정도?? ㅠㅠㅠㅠ
+하늘이 내마음 대변하는듯하다 우후훗
+그래도 화이팅 ㅎ</p>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Category
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesandroid'>Android</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="http://starrysky.co.kr/post/2011/finaltest_20110722/"
+                class="button big previous">MAC에서 Android 어플 개발시 EVOCAM의 web Server 기능은 사용 불가능.</a></li>
+    
+
+    
+        <li><a href="http://starrysky.co.kr/post/2011/char2int/"
+                class="button big next">android 알파벳을 정수로 형변환.</a></li>
+    
+</ul>
+
+
+
+
+
+    
+        <article class="post">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'starry-sky';
+    var disqus_identifier = 'http:\/\/starrysky.co.kr\/post\/2011\/finaltest_20110819\/';
+    var disqus_title = '2011년 08월 19일';
+    var disqus_url = 'http:\/\/starrysky.co.kr\/post\/2011\/finaltest_20110819\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </article>
+    
+
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Starrysky logo" /></a>
+                
+            
+            
+                <header>
+                    <h2>HELLO WORLD.</h2>
+                    <p>Android Developer from South Korea</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/doonje" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//plus.google.com/+%ec%a7%84%ed%99%8d%eb%b9%9b" target="_blank" title="Google+" class="fa fa-google-plus"></a></li>
+
+
+
+
+
+
+
+<li><a href="mailto:doonje@gmail.com" title="Email" class="fa fa-envelope"></a></li>
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2016/2016_travel_osaka/">[2016.10.12-16] KOBE-OSAKA-KYOTO</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2016-10-31'>
+                                    October 31, 2016</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2016/2016_travel_%20Taiwan/">[2016.01.24-27] Taiwan</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2016-01-24'>
+                                    January 24, 2016</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2015/apps-alading-usedbook-search/">알라딘 중고도서 검색기</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2015-11-10'>
+                                    November 10, 2015</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2013/Efficient-rounded%20corner-imageview/">Efficient rounded corner imageview</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2013-09-21'>
+                                    September 21, 2013</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2013/firstStartFlatColorPalette/">Flat한 디자인을 위한 첫걸음.</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2013-09-20'>
+                                    September 20, 2013</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /post/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/travel/">Travel</a>
+                                <span style="float:right;">14</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/life/">Life</a>
+                                <span style="float:right;">11</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/android/">Android</a>
+                                <span style="float:right;">8</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/snap/">Snap</a>
+                                <span style="float:right;">7</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/app/">App</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/book/">Book</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/think/">Think</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+            </ul>
+
+            <p class="copyright">&copy; StarrySky Blog. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+
+        
+            
+                
+                    <script src="/js/main.min.js"></script>
+                
+            
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

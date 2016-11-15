@@ -1,0 +1,809 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>Android zip or gz(gzip) 압축풀기</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.16" />
+        
+
+
+        
+            <meta name="author" content="Doonje">
+        
+        
+            
+                <meta name="description" content="Android Developer from South Korea">
+            
+        
+
+        
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Android zip or gz(gzip) 압축풀기"/>
+<meta name="twitter:description" content="안드로이드에서 zip과 gz 압축을 해제하는 코드 구현. 1. 우선 zip과 gzip의 차이부터 알아야 한다. zip은 인코딩 문제로 한글파일이 압축이 안됨. gzip은 한글파일 압축 가능 zip은 여러(복수)개의 파일을 하나의 파일로 압축가능 gzip(gz)은 하나의 파일만 압축가능 그러므로 여러(복수)개의 파일을 gzip으로 압축하기 위해서는 tar로 파일을 하나로 묶은 후 gzip으로 압축가능. zip gzip(gz) 한글파일 압축 가능 여부 불가능 가능 여러(복수)개의 파일 압축 가능 여부 가능 불가능 2. zip 파일 압축 해제 zip파일 압축 푸는 소스는 쉽게 구할 수 있다."/>
+
+
+
+        <meta property="og:title" content="Android zip or gz(gzip) 압축풀기" />
+<meta property="og:description" content="안드로이드에서 zip과 gz 압축을 해제하는 코드 구현. 1. 우선 zip과 gzip의 차이부터 알아야 한다. zip은 인코딩 문제로 한글파일이 압축이 안됨. gzip은 한글파일 압축 가능 zip은 여러(복수)개의 파일을 하나의 파일로 압축가능 gzip(gz)은 하나의 파일만 압축가능 그러므로 여러(복수)개의 파일을 gzip으로 압축하기 위해서는 tar로 파일을 하나로 묶은 후 gzip으로 압축가능. zip gzip(gz) 한글파일 압축 가능 여부 불가능 가능 여러(복수)개의 파일 압축 가능 여부 가능 불가능 2. zip 파일 압축 해제 zip파일 압축 푸는 소스는 쉽게 구할 수 있다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://starrysky.co.kr/post/2012/android_zip_or_gz/" />
+
+
+<meta property="og:updated_time" content="2012-04-04T05:49:41&#43;09:00"/>
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="Android zip or gz(gzip) 압축풀기">
+<meta itemprop="description" content="안드로이드에서 zip과 gz 압축을 해제하는 코드 구현. 1. 우선 zip과 gzip의 차이부터 알아야 한다. zip은 인코딩 문제로 한글파일이 압축이 안됨. gzip은 한글파일 압축 가능 zip은 여러(복수)개의 파일을 하나의 파일로 압축가능 gzip(gz)은 하나의 파일만 압축가능 그러므로 여러(복수)개의 파일을 gzip으로 압축하기 위해서는 tar로 파일을 하나로 묶은 후 gzip으로 압축가능. zip gzip(gz) 한글파일 압축 가능 여부 불가능 가능 여러(복수)개의 파일 압축 가능 여부 가능 불가능 2. zip 파일 압축 해제 zip파일 압축 푸는 소스는 쉽게 구할 수 있다.">
+
+
+<meta itemprop="dateModified" content="2012-04-04T05:49:41&#43;09:00" />
+<meta itemprop="wordCount" content="341">
+
+
+
+<meta itemprop="keywords" content="Android,App,Book,Life,Snap,Think,Travel," />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+
+        
+            
+                
+                    <link rel="stylesheet" href="/css/main.min.css" />
+                
+            
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-44198092-2', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+    </head>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">StarrySky</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/post">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:http://starrysky.co.kr/">
+                </form>
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:http://starrysky.co.kr/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/post">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2016/2016_travel_osaka/"><p>[2016.10.12-16] KOBE-OSAKA-KYOTO</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2016/2016_travel_%20Taiwan/"><p>[2016.01.24-27] Taiwan</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2015/apps-alading-usedbook-search/"><p>알라딘 중고도서 검색기</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2013/Efficient-rounded%20corner-imageview/"><p>Efficient rounded corner imageview</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2013/firstStartFlatColorPalette/"><p>Flat한 디자인을 위한 첫걸음.</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2012%2fandroid_zip_or_gz%2f&text=Android%20zip%20or%20gz%28gzip%29%20%ec%95%95%ec%b6%95%ed%92%80%ea%b8%b0&via=" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2012%2fandroid_zip_or_gz%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2012%2fandroid_zip_or_gz%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2012%2fandroid_zip_or_gz%2f&title=Android%20zip%20or%20gz%28gzip%29%20%ec%95%95%ec%b6%95%ed%92%80%ea%b8%b0" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2012%2fandroid_zip_or_gz%2f&title=Android%20zip%20or%20gz%28gzip%29%20%ec%95%95%ec%b6%95%ed%92%80%ea%b8%b0" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2012%2fandroid_zip_or_gz%2f&title=Android%20zip%20or%20gz%28gzip%29%20%ec%95%95%ec%b6%95%ed%92%80%ea%b8%b0" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Doonje&body=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2012%2fandroid_zip_or_gz%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="http://starrysky.co.kr/post/2012/android_zip_or_gz/">Android zip or gz(gzip) 압축풀기</a></h1>
+            
+        
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2012-04-04'>
+            April 4, 2012</time>
+        <span class="author">Doonje</span>
+        
+            <p>2 minute read</p>
+        
+        
+    </div>
+</header>
+
+
+    
+    
+    
+
+    <div id="content">
+        <p>안드로이드에서 zip과 gz 압축을 해제하는 코드 구현.
+1. 우선 zip과 gzip의 차이부터 알아야 한다.
+zip은 인코딩 문제로 한글파일이 압축이 안됨.
+gzip은 한글파일 압축 가능
+zip은 여러(복수)개의 파일을 하나의 파일로 압축가능
+gzip(gz)은 하나의 파일만 압축가능
+그러므로 여러(복수)개의 파일을 gzip으로 압축하기 위해서는 tar로 파일을 하나로 묶은 후 gzip으로 압축가능.
+zip
+gzip(gz)
+한글파일 압축 가능 여부
+불가능
+가능
+여러(복수)개의 파일 압축 가능 여부
+가능
+불가능
+2. zip 파일 압축 해제
+zip파일 압축 푸는 소스는 쉽게 구할 수 있다.
+그중 하나(<a href="http://android-er.blogspot.com/2011/04/unzip-compressed-file-using-javautilzip.html)를">http://android-er.blogspot.com/2011/04/unzip-compressed-file-using-javautilzip.html)를</a> 소개하면
+unzip(압축파일절대경로, 압축해제폴더);
+펼침/접힘 단어 입력 :zip파일 압축해제 소스보기
+private void unzip(String src, String dest){
+final int BUFFER_SIZE = 4096;
+BufferedOutputStream bufferedOutputStream = null;
+FileInputStream fileInputStream;
+try {
+fileInputStream = new FileInputStream(src);
+ZipInputStream zipInputStream
+= new ZipInputStream(new BufferedInputStream(fileInputStream));
+ZipEntry zipEntry;
+while ((zipEntry = zipInputStream.getNextEntry()) != null){
+String zipEntryName = zipEntry.getName();
+File file = new File(dest + zipEntryName);
+if (file.exists()){
+} else {
+if(zipEntry.isDirectory()){
+file.mkdirs();
+}else{
+byte buffer[] = new byte[BUFFER_SIZE];
+FileOutputStream fileOutputStream = new FileOutputStream(file);
+bufferedOutputStream
+= new BufferedOutputStream(fileOutputStream, BUFFER_SIZE);
+int count;
+while ((count
+= zipInputStream.read(buffer, 0, BUFFER_SIZE)) != -1) {
+bufferedOutputStream.write(buffer, 0, count);
+}
+bufferedOutputStream.flush();
+bufferedOutputStream.close();
+}
+}
+}
+zipInputStream.close();
+} catch (FileNotFoundException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+}catch (IOException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+}
+}
+3. gz(gzip) 파일 압축 해제
+위에서 설명하였든 gz파일은 zip과는 다르게 하나의 파일만을 압축한다.
+그러므로 미리 위에서 설명한 unzip함수 중 ZipEntry 클래스가 필요가 없다.
+ZipEntry는 Zip파일에서 각각의 파일을 추출하기 위한 클래스이므로 gz에서는 필요가 없다.
+그러므로 불필요한 코드를 지우고 나면 gz파일을 해제 할 수 있는 코드가 된다.
+1. ZipInputStream을 GZIP에 맞게 변경하기
+2. ZipEntry관련 코드 지우기
+unGZIP(
+압축파일절대경로, 압축해제파일절대경로);
+펼침/접힘 단어 입력 :gzip파일 압축해제 소스보기
+mso-font-kerning:0pt&rdquo;&gt;private10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;mso-font-kerning:0pt&rdquo;&gt;void10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;unGZIP(String src, String dest){font-family:Consolas;mso-font-kerning:0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;0pt&rdquo;&gt;finalfont-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;mso-font-kerning:0pt&rdquo;&gt;int10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;BUFFER_SIZE = 4096;mso-font-kerning:0pt&rdquo;&gt;
+BufferedOutputStream bufferedOutputStream = color:#7F0055;mso-font-kerning:0pt&rdquo;&gt;null;
+mso-font-kerning:0pt&rdquo;&gt;FileInputStream fileInputStream;0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;0pt&rdquo;&gt;try {
+mso-font-kerning:0pt&rdquo;&gt;fileInputStream = mso-font-kerning:0pt&rdquo;&gt;new 10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;FileInputStream(src);font-family:Consolas;mso-font-kerning:0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;GZIPInputStream yellow;mso-highlight:yellow&rdquo;&gt;gzipInputStream
+mso-font-kerning:0pt&rdquo;&gt;= mso-font-kerning:0pt&rdquo;&gt;new10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;GZIPInputStream(mso-font-kerning:0pt&rdquo;&gt;new 10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;BufferedInputStream(fileInputStream));10.0pt;font-family:Consolas;mso-font-kerning:0pt&rdquo;&gt;
+File file = 0pt&rdquo;&gt;new File(dest);
+mso-font-kerning:0pt&rdquo;&gt;mso-font-kerning:0pt&rdquo;&gt;if10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;(file.exists()) {0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;}mso-font-kerning:0pt&rdquo;&gt;else10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;{0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;mso-font-kerning:0pt&rdquo;&gt;byte10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;buffer[] = mso-font-kerning:0pt&rdquo;&gt;new10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;mso-font-kerning:0pt&rdquo;&gt;byte10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;[BUFFER_SIZE];0pt&rdquo;&gt;
+FileOutputStream fileOutputStream = 0pt&rdquo;&gt;new FileOutputStream(file);
+mso-font-kerning:0pt&rdquo;&gt;bufferedOutputStream = 10.0pt;font-family:Consolas;color:#7F0055;mso-font-kerning:0pt&rdquo;&gt;newmso-font-kerning:0pt&rdquo;&gt;BufferedOutputStream(fileOutputStream, BUFFER_SIZE);0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;mso-font-kerning:0pt&rdquo;&gt;int10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;count;0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;mso-font-kerning:0pt&rdquo;&gt;while10.0pt;font-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;((count = gzipInputStream.read(buffer,0, BUFFER_SIZE)) != -1){
+bufferedOutputStream.write(buffer, 0, count);
+mso-font-kerning:0pt&rdquo;&gt;}0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;bufferedOutputStream.flush();10.0pt;font-family:Consolas;mso-font-kerning:0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;bufferedOutputStream.close();10.0pt;font-family:Consolas;mso-font-kerning:0pt&rdquo;&gt;
+}
+mso-font-kerning:0pt&rdquo;&gt;mso-highlight:silver&rdquo;&gt;gzipInputStream.close();
+mso-font-kerning:0pt&rdquo;&gt;File s = 0pt&rdquo;&gt;newfont-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;File(src);0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;s.delete();
+mso-font-kerning:0pt&rdquo;&gt;} 0pt&rdquo;&gt;catchfont-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;(FileNotFoundException e) {
+mso-font-kerning:0pt&rdquo;&gt;e.printStackTrace();0pt&rdquo;&gt;
+mso-font-kerning:0pt&rdquo;&gt;} 0pt&rdquo;&gt;catchfont-family:Consolas;color:black;mso-font-kerning:0pt&rdquo;&gt;(IOException e) {
+e.printStackTrace();
+}
+}</p>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Category
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesandroid'>Android</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="http://starrysky.co.kr/post/2012/20120308_north_area_1/"
+                class="button big previous">북촌</a></li>
+    
+
+    
+        <li><a href="http://starrysky.co.kr/post/snap/snap_20120419/"
+                class="button big next">-</a></li>
+    
+</ul>
+
+
+
+
+
+    
+        <article class="post">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'starry-sky';
+    var disqus_identifier = 'http:\/\/starrysky.co.kr\/post\/2012\/android_zip_or_gz\/';
+    var disqus_title = 'Android zip or gz(gzip) 압축풀기';
+    var disqus_url = 'http:\/\/starrysky.co.kr\/post\/2012\/android_zip_or_gz\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </article>
+    
+
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Starrysky logo" /></a>
+                
+            
+            
+                <header>
+                    <h2>HELLO WORLD.</h2>
+                    <p>Android Developer from South Korea</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/doonje" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//plus.google.com/+%ec%a7%84%ed%99%8d%eb%b9%9b" target="_blank" title="Google+" class="fa fa-google-plus"></a></li>
+
+
+
+
+
+
+
+<li><a href="mailto:doonje@gmail.com" title="Email" class="fa fa-envelope"></a></li>
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2016/2016_travel_osaka/">[2016.10.12-16] KOBE-OSAKA-KYOTO</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2016-10-31'>
+                                    October 31, 2016</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2016/2016_travel_%20Taiwan/">[2016.01.24-27] Taiwan</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2016-01-24'>
+                                    January 24, 2016</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2015/apps-alading-usedbook-search/">알라딘 중고도서 검색기</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2015-11-10'>
+                                    November 10, 2015</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2013/Efficient-rounded%20corner-imageview/">Efficient rounded corner imageview</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2013-09-21'>
+                                    September 21, 2013</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2013/firstStartFlatColorPalette/">Flat한 디자인을 위한 첫걸음.</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2013-09-20'>
+                                    September 20, 2013</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /post/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/travel/">Travel</a>
+                                <span style="float:right;">14</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/life/">Life</a>
+                                <span style="float:right;">11</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/android/">Android</a>
+                                <span style="float:right;">8</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/snap/">Snap</a>
+                                <span style="float:right;">7</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/app/">App</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/book/">Book</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/think/">Think</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+            </ul>
+
+            <p class="copyright">&copy; StarrySky Blog. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+
+        
+            
+                
+                    <script src="/js/main.min.js"></script>
+                
+            
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

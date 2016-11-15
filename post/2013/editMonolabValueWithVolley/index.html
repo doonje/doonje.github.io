@@ -1,0 +1,735 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>Volley를 통해 mongoDB에 값을 변경해야 하는 경우 처리방법</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.16" />
+        
+
+
+        
+            <meta name="author" content="Doonje">
+        
+        
+            
+                <meta name="description" content="Android Developer from South Korea">
+            
+        
+
+        
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Volley를 통해 mongoDB에 값을 변경해야 하는 경우 처리방법"/>
+<meta name="twitter:description" content="MongoDB를 사용하는 경우. java에서 사용 가능한 api가 오픈소스로 존재한다. mongo-java-driver https://github.com/mongodb/mongo-java-driver/downloads 이걸 쓰지 않고 Volley를 이용하는 경우. 이유는 모르겠으나 JsonObjectRequest만 연결이 되는듯 하다&hellip; 데이터를 불러 오는 것은 StringRequest가 가능한데 데이터 변경은 JsonObjectRequest만 되는듯&hellip; 데이터 변경은 PUT으로 처리. 일반적으로 JsonObjectRequest를 사용하는 이런 식으로 처리하는데 JsonObjectRequest jr = new JsonObjectRequest( Method.PUT, // 전송 방법 mUrl, //주소 jsonDoc, //변경할 데이터 문서 new Response.Listener&hellip;&hellip; , //응답이 온 경우 new Response.ErrorListener &hellip;.. //오류가 난 경우 개발 중 쿼리를 통해 데이터를 필터링 하고, 필터링 된 데이터를 모두 삭제한번에 삭제하려 하는 경우."/>
+
+
+
+        <meta property="og:title" content="Volley를 통해 mongoDB에 값을 변경해야 하는 경우 처리방법" />
+<meta property="og:description" content="MongoDB를 사용하는 경우. java에서 사용 가능한 api가 오픈소스로 존재한다. mongo-java-driver https://github.com/mongodb/mongo-java-driver/downloads 이걸 쓰지 않고 Volley를 이용하는 경우. 이유는 모르겠으나 JsonObjectRequest만 연결이 되는듯 하다&hellip; 데이터를 불러 오는 것은 StringRequest가 가능한데 데이터 변경은 JsonObjectRequest만 되는듯&hellip; 데이터 변경은 PUT으로 처리. 일반적으로 JsonObjectRequest를 사용하는 이런 식으로 처리하는데 JsonObjectRequest jr = new JsonObjectRequest( Method.PUT, // 전송 방법 mUrl, //주소 jsonDoc, //변경할 데이터 문서 new Response.Listener&hellip;&hellip; , //응답이 온 경우 new Response.ErrorListener &hellip;.. //오류가 난 경우 개발 중 쿼리를 통해 데이터를 필터링 하고, 필터링 된 데이터를 모두 삭제한번에 삭제하려 하는 경우." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://starrysky.co.kr/post/2013/editMonolabValueWithVolley/" />
+
+
+<meta property="og:updated_time" content="2013-09-01T13:50:41&#43;09:00"/>
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="Volley를 통해 mongoDB에 값을 변경해야 하는 경우 처리방법">
+<meta itemprop="description" content="MongoDB를 사용하는 경우. java에서 사용 가능한 api가 오픈소스로 존재한다. mongo-java-driver https://github.com/mongodb/mongo-java-driver/downloads 이걸 쓰지 않고 Volley를 이용하는 경우. 이유는 모르겠으나 JsonObjectRequest만 연결이 되는듯 하다&hellip; 데이터를 불러 오는 것은 StringRequest가 가능한데 데이터 변경은 JsonObjectRequest만 되는듯&hellip; 데이터 변경은 PUT으로 처리. 일반적으로 JsonObjectRequest를 사용하는 이런 식으로 처리하는데 JsonObjectRequest jr = new JsonObjectRequest( Method.PUT, // 전송 방법 mUrl, //주소 jsonDoc, //변경할 데이터 문서 new Response.Listener&hellip;&hellip; , //응답이 온 경우 new Response.ErrorListener &hellip;.. //오류가 난 경우 개발 중 쿼리를 통해 데이터를 필터링 하고, 필터링 된 데이터를 모두 삭제한번에 삭제하려 하는 경우.">
+
+
+<meta itemprop="dateModified" content="2013-09-01T13:50:41&#43;09:00" />
+<meta itemprop="wordCount" content="128">
+
+
+
+<meta itemprop="keywords" content="Android,App,Book,Life,Snap,Think,Travel," />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+
+        
+            
+                
+                    <link rel="stylesheet" href="/css/main.min.css" />
+                
+            
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-44198092-2', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+    </head>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">StarrySky</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/post">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:http://starrysky.co.kr/">
+                </form>
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:http://starrysky.co.kr/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/post">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2016/2016_travel_osaka/"><p>[2016.10.12-16] KOBE-OSAKA-KYOTO</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2016/2016_travel_%20Taiwan/"><p>[2016.01.24-27] Taiwan</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2015/apps-alading-usedbook-search/"><p>알라딘 중고도서 검색기</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2013/Efficient-rounded%20corner-imageview/"><p>Efficient rounded corner imageview</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="http://starrysky.co.kr/post/2013/firstStartFlatColorPalette/"><p>Flat한 디자인을 위한 첫걸음.</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2013%2feditMonolabValueWithVolley%2f&text=Volley%eb%a5%bc%20%ed%86%b5%ed%95%b4%20mongoDB%ec%97%90%20%ea%b0%92%ec%9d%84%20%eb%b3%80%ea%b2%bd%ed%95%b4%ec%95%bc%20%ed%95%98%eb%8a%94%20%ea%b2%bd%ec%9a%b0%20%ec%b2%98%eb%a6%ac%eb%b0%a9%eb%b2%95&via=" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2013%2feditMonolabValueWithVolley%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2013%2feditMonolabValueWithVolley%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2013%2feditMonolabValueWithVolley%2f&title=Volley%eb%a5%bc%20%ed%86%b5%ed%95%b4%20mongoDB%ec%97%90%20%ea%b0%92%ec%9d%84%20%eb%b3%80%ea%b2%bd%ed%95%b4%ec%95%bc%20%ed%95%98%eb%8a%94%20%ea%b2%bd%ec%9a%b0%20%ec%b2%98%eb%a6%ac%eb%b0%a9%eb%b2%95" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2013%2feditMonolabValueWithVolley%2f&title=Volley%eb%a5%bc%20%ed%86%b5%ed%95%b4%20mongoDB%ec%97%90%20%ea%b0%92%ec%9d%84%20%eb%b3%80%ea%b2%bd%ed%95%b4%ec%95%bc%20%ed%95%98%eb%8a%94%20%ea%b2%bd%ec%9a%b0%20%ec%b2%98%eb%a6%ac%eb%b0%a9%eb%b2%95" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2013%2feditMonolabValueWithVolley%2f&title=Volley%eb%a5%bc%20%ed%86%b5%ed%95%b4%20mongoDB%ec%97%90%20%ea%b0%92%ec%9d%84%20%eb%b3%80%ea%b2%bd%ed%95%b4%ec%95%bc%20%ed%95%98%eb%8a%94%20%ea%b2%bd%ec%9a%b0%20%ec%b2%98%eb%a6%ac%eb%b0%a9%eb%b2%95" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Doonje&body=http%3a%2f%2fstarrysky.co.kr%2fpost%2f2013%2feditMonolabValueWithVolley%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="http://starrysky.co.kr/post/2013/editMonolabValueWithVolley/">Volley를 통해 mongoDB에 값을 변경해야 하는 경우 처리방법</a></h1>
+            
+        
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2013-09-01'>
+            September 1, 2013</time>
+        <span class="author">Doonje</span>
+        
+            <p>1 minute read</p>
+        
+        
+    </div>
+</header>
+
+
+    
+    
+    
+
+    <div id="content">
+        <p>MongoDB를 사용하는 경우. java에서 사용 가능한 api가 오픈소스로 존재한다.
+mongo-java-driver
+<a href="https://github.com/mongodb/mongo-java-driver/downloads">https://github.com/mongodb/mongo-java-driver/downloads</a></p>
+
+<p>이걸 쓰지 않고 Volley를 이용하는 경우. 이유는 모르겠으나 JsonObjectRequest만 연결이 되는듯 하다&hellip;
+데이터를 불러 오는 것은 StringRequest가 가능한데 데이터 변경은 JsonObjectRequest만 되는듯&hellip;
+데이터 변경은 PUT으로 처리.</p>
+
+<p>일반적으로 JsonObjectRequest를 사용하는 이런 식으로 처리하는데
+JsonObjectRequest jr = new JsonObjectRequest(
+Method.PUT,        // 전송 방법
+mUrl,                    //주소
+jsonDoc,            //변경할 데이터 문서
+new Response.Listener<JSONObject>&hellip;&hellip; ,  //응답이 온 경우
+new Response.ErrorListener &hellip;..                //오류가 난 경우</p>
+
+<p>개발 중 쿼리를 통해 데이터를 필터링 하고, 필터링 된 데이터를 모두 삭제한번에 삭제하려 하는 경우. 변경할 데이터 문서에 다른 내용 필요없이 &ldquo;[]&rdquo; 값만 주면 된다.</p>
+
+<p>하지만 변경할 데이터 문서는 JSONObject 형식이여야 하므로 &ldquo;[]&ldquo;로 생성하면 오류를 발생한다.
+이런 경우. 변경할 데이터 문서에 null을 주고 getBody()로 추가해주면 된다.</p>
+
+<pre><code>@Override
+public byte[] getBody() {
+    String body = &quot;[]&quot;;
+    return body.getBytes();
+}
+</code></pre>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Category
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesandroid'>Android</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="http://starrysky.co.kr/post/snap/snap_20120424_Eurwangni/"
+                class="button big previous">을왕리</a></li>
+    
+
+    
+        <li><a href="http://starrysky.co.kr/post/2013/firstStartFlatColorPalette/"
+                class="button big next">Flat한 디자인을 위한 첫걸음.</a></li>
+    
+</ul>
+
+
+
+
+
+    
+        <article class="post">
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'starry-sky';
+    var disqus_identifier = 'http:\/\/starrysky.co.kr\/post\/2013\/editMonolabValueWithVolley\/';
+    var disqus_title = 'Volley를 통해 mongoDB에 값을 변경해야 하는 경우 처리방법';
+    var disqus_url = 'http:\/\/starrysky.co.kr\/post\/2013\/editMonolabValueWithVolley\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </article>
+    
+
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Starrysky logo" /></a>
+                
+            
+            
+                <header>
+                    <h2>HELLO WORLD.</h2>
+                    <p>Android Developer from South Korea</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/doonje" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//plus.google.com/+%ec%a7%84%ed%99%8d%eb%b9%9b" target="_blank" title="Google+" class="fa fa-google-plus"></a></li>
+
+
+
+
+
+
+
+<li><a href="mailto:doonje@gmail.com" title="Email" class="fa fa-envelope"></a></li>
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2016/2016_travel_osaka/">[2016.10.12-16] KOBE-OSAKA-KYOTO</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2016-10-31'>
+                                    October 31, 2016</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2016/2016_travel_%20Taiwan/">[2016.01.24-27] Taiwan</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2016-01-24'>
+                                    January 24, 2016</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2015/apps-alading-usedbook-search/">알라딘 중고도서 검색기</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2015-11-10'>
+                                    November 10, 2015</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2013/Efficient-rounded%20corner-imageview/">Efficient rounded corner imageview</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2013-09-21'>
+                                    September 21, 2013</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="http://starrysky.co.kr/post/2013/firstStartFlatColorPalette/">Flat한 디자인을 위한 첫걸음.</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2013-09-20'>
+                                    September 20, 2013</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /post/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/travel/">Travel</a>
+                                <span style="float:right;">14</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/life/">Life</a>
+                                <span style="float:right;">11</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/android/">Android</a>
+                                <span style="float:right;">8</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/snap/">Snap</a>
+                                <span style="float:right;">7</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/app/">App</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/book/">Book</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/think/">Think</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+            </ul>
+
+            <p class="copyright">&copy; StarrySky Blog. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+
+        
+            
+                
+                    <script src="/js/main.min.js"></script>
+                
+            
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+
